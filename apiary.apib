@@ -1,0 +1,101 @@
+FORMAT: 1A
+HOST: http://localhost:8080/notes-manager/
+
+# Menadżer Notatek API
+Menadżer notatek API jest to web service działający tak samo jak, Twój papierowy notatnik leżący na biurku.
+
+## Notatki [/notes]
+### Pokaż wszystkie notatki [GET]
++ Response 200 (application/json)
+
+        [
+            {"content": "O 16 musze wstawic pranie", "category": "Dom", "labels": ["dzisiaj"], "ID": 0, "title": "Pranie"},
+            {"content": "Termin oddania projektu to 22.01", "category": "Szko\u0142a", "labels": ["java"], "ID": 1, "title": "Projekt ASiD"},
+            {"content": "Piwko w Wikingu w Z\u0142otych Tarasach, pi\u0105tek wiecz\u00f3r", "category": "Nauka", "labels": ["jutro"], "ID": 2, "title": "Spotkanie z Piotrkiem"},
+            {"content": "Zbi\u00f3rka przed biurem o 7:00", "category": "Praca", "labels": ["jutro"], "ID": 3, "title": "Wyjazd do Wroc\u0142awia"},
+            {"content": "Nie zapomnij o urodzinach mamy, 05.02", "category": "Szko\u0142a", "labels": ["luty", "prezent"], "ID": 4, "title": "Urodziny mamy"}
+        ]
+
+### Dodaj nową notatkę [POST]
++ Request (application/json)
+
+        {"content": "Nowa notatka", "category": "Praca", "labels": ["label"], "title": "Moj pierwszy raz"}
+
++ Response 200 (application/json)
+
+        {"content": "Nowa notatka", "category": "Praca", "labels": ["label"], "ID": 6, "title": "Moj pierwszy raz"}
+
+
+## Notatka [/notes/{ID_note}]
+### Pokaż pojedynczą notatkę [GET]
+
++ Parameters
+    + ID_note (required, number, `1`) ... ID notatki, ktora chcemy wyswietlic.
+    
++ Response 200 (application/json)
+
+        {"content": "Termin oddania projektu to 22.01", "category": "Szko\u0142a", "labels": ["java"], "ID": 1, "title": "Projekt ASiD"}
+
+### Edytuj pojedynczą notatkę [PUT]
+
++ Parameters
+    + ID_note (required, number, `1`) ... ID notatki, ktora chcemy edytowac.
+
++ Request (application/json)
+
+        {"content": "Notatka do edycji", "category": "Praca", "labels": "przykladowy,przykladowy1", "title": "Zabawa z notatkami"}
+
++ Response 200 (application/json)
+
+        {"content": "Notatka do edycji", "category": "Praca", "labels": ["przykladowy", "przykladowy1"], "ID": 1, "title": "Zabawa z notatkami"}
+
+
+### Usuń pojedynczą notatkę [DELETE]
+
++ Parameters
+    + ID_note (required, number, `1`) ... ID notatki, ktora chcemy usunac.
+
++ Response 403 (application/json)
+    
+        {"msg": "Nie mo\u017cna usun\u0105\u0107 notatki z ID mniejszym od 4"}
+ 
+
+## Kategorie [/category]
+### Wyswietla dostępne kategorie [GET]
++ Response 200 (application/json)
+
+        ["Szko\u0142a", "Praca", "Dom", "Trening", "Nauka", "Spotkanie", "Wyjazd", "Powr\u00f3t"]
+
+## Kategoria [/category/{NAZWA_KATEGORII}]
+### Wyswietla wszystkie notatki z podanej kategorii [GET]
++ Parameters
+
+ 
+    + NAZWA_KATEGORII (required, word, `Praca`) ... Nazwa kategorii, z której chcemy wyswietlic notatki. Wybrana z dostepnych kategorii.
+
++ Response 200 (application/json)
+
+        [
+            {"content": "Zbi\u00f3rka przed biurem o 7:00", "category": "Praca", "labels": ["jutro"], "ID": 3, "title": "Wyjazd do Wroc\u0142awia"}
+        ]
+
+## Etykiety [/labels]
+### Wyswietla wszystkie dotyczas dodane etykiety [GET]
+
++ Response 200 (application/json)
+    
+        ["dzisiaj", "jutro", "python", "java", "luty", "prezent"]
+
+## Etykieta [/labels/{NAZWA_ETYKIETY}]
+### Wyswietla wszystkie notatki z podaną etykietą [GET]
+
++ Parameters
+    
+    + NAZWA_ETYKIETY (required, word, `jutro`) ... Nazwa etykiety, z którą chcemy wyswietlic notatki. Wybrana z dostepnych etykiet.
+
++ Response 200 (application/json)
+    
+        [
+            {"content": "Piwko w Wikingu w Z\u0142otych Tarasach, pi\u0105tek wiecz\u00f3r", "category": "Nauka", "labels": ["jutro"], "ID": 2, "title": "Spotkanie z Piotrkiem"}, 
+            {"content": "Zbi\u00f3rka przed biurem o 7:00", "category": "Praca", "labels": ["jutro"], "ID": 3, "title": "Wyjazd do Wroc\u0142awia"}
+        ]
