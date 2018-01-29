@@ -1,11 +1,11 @@
-# Simple Notes Manager in Python (API, console client, web client) 
+# Simple Notes Manager in Python (API, console client) 
 
-## Uruchomienie aplikacji w trybie developerskim
+## Running the application in development mode
 $ uwsgi -c uwsgi.ini
 (press CTRL+C to close the application)
 
-## Uruchomienie aplikacji w tle
+## Running the application in the background
 $ uwsgi -c uwsgi.ini --daemonize application.log
 
-## Wyłączenie aplikacji działającej w tle
+## Turning off the application running in the background
 $ uwsgi --stop uwsgi.pid
